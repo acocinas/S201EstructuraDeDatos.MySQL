@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`employee` (
   `name` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(15) NOT NULL,
   `email` VARCHAR(100) NULL,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   PRIMARY KEY (`id_employee`));
 
 
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`customer` (
   `registration_date` DATETIME NULL,
   `recommended_by` INT NOT NULL,
   PRIMARY KEY (`id_customer`),
-  INDEX `recommended_by_idx` (`recommended_by` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  INDEX `contact_id_idx` (`contact_id` ASC) VISIBLE,
+  INDEX `recommended_by_idx` (`recommended_by` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  INDEX `contact_id_idx` (`contact_id` ASC),
   CONSTRAINT `recommended_by`
     FOREIGN KEY (`recommended_by`)
     REFERENCES `mydb`.`customer` (`id_customer`)
@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`supplier` (
   `fax` VARCHAR(15) NULL,
   `nif` VARCHAR(12) NOT NULL,
   PRIMARY KEY (`id_supplier`),
-  INDEX `contact_id_idx` (`contact_id` ASC) VISIBLE,
-  UNIQUE INDEX `nif_UNIQUE` (`nif` ASC) VISIBLE,
+  INDEX `contact_id_idx` (`contact_id` ASC),
+  UNIQUE INDEX `nif_UNIQUE` (`nif` ASC),
   CONSTRAINT `contact_id`
     FOREIGN KEY (`contact_id`)
     REFERENCES `mydb`.`contact_info` (`id_contact`)
@@ -101,8 +101,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`brand` (
   `name` VARCHAR(100) NOT NULL,
   `supplier_id` INT NOT NULL,
   PRIMARY KEY (`id_brand`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-  INDEX `supplier_id_idx` (`supplier_id` ASC) VISIBLE,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  INDEX `supplier_id_idx` (`supplier_id` ASC),
   CONSTRAINT `supplier_id`
     FOREIGN KEY (`supplier_id`)
     REFERENCES `mydb`.`supplier` (`id_supplier`)
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`glasses` (
   `right_lens_color` VARCHAR(45) NULL,
   `price` DECIMAL(10,2) NULL,
   PRIMARY KEY (`id_glasses`),
-  INDEX `brand_id_idx` (`brand_id` ASC) VISIBLE,
+  INDEX `brand_id_idx` (`brand_id` ASC),
   CONSTRAINT `brand_id`
     FOREIGN KEY (`brand_id`)
     REFERENCES `mydb`.`brand` (`id_brand`)
@@ -145,9 +145,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`sale` (
   `sale_date` DATETIME NULL,
   `salecol` VARCHAR(45) NULL,
   PRIMARY KEY (`id_sale`),
-  INDEX `customer_id_idx` (`customer_id` ASC) VISIBLE,
-  INDEX `employee_id_idx` (`employee_id` ASC) VISIBLE,
-  INDEX `glasses_id_idx` (`glasses_id` ASC) VISIBLE,
+  INDEX `customer_id_idx` (`customer_id` ASC),
+  INDEX `employee_id_idx` (`employee_id` ASC),
+  INDEX `glasses_id_idx` (`glasses_id` ASC),
   CONSTRAINT `customer_id`
     FOREIGN KEY (`customer_id`)
     REFERENCES `mydb`.`customer` (`id_customer`)
@@ -169,3 +169,43 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO employee (name, phone, email)
+VALUES
+('Alfonso Cocinas', 539434809, 'holahola@gmail.com'),
+('Beatriz López', 448525718, 'ciaociao@gmail.com'),
+('Benito Hernández', 357616627, 'hellohello@gmail.com');
+
+INSERT INTO contact_info (name, phone, street, number, floor, door, city, postal_code, country)
+VALUES
+('Cliente 1', 266707536, 'Quinto pino', 5, '7', 'C', 'Barcelona', '08002', 'España'),
+('Cliente 2', 175898445, 'Mano derecha', 327, 'Sobre Ático', '5ª', 'Barcelona', '08008', 'España'),
+('Cliente 3',084989354, 'Al fondo', 22, 'Entresuelo', '1ª', 'Barcelona', '08028', 'España'),
+('Proveedor 1', 993070263, 'Calle c', 3, '', '', 'Barcelona', '08021', 'España'),
+('Proveedor 2', 802161172, 'Calle D', 39, '', '', 'Barcelona', '08021', 'España');
+
+INSERT INTO	customer (contact_id, email, registration_date, recommended_by)
+VALUES
+(1 , 'cliente1@ejemplo.com', '2025-01-13 09:57:36', ''),
+(2 , 'cliente2@ejemplo.es', '2025-01-22 22:01:09', 1),
+(3 , 'cliente3@ejemplo.es', '2025-01-23 15:23:33', 1);
+
+INSERT INTO supplier( contact_id , fax, nif)
+VALUES
+(4, '711252081', 'B09847392'),
+
+(5, '620343990', 'B10756483'); 
+INSERT INTO brand(name, supplier_id)
+VALUES
+('Marca 1', 1),
+('Marca 2', 2),
+('Marca 3', 1);
+
+INSERT INTO glasses (brand_id, left_lens_prescription, right_lens_prescription,
+ frame_type, frame_color, left_lens_color, right_lens_color, price)
+ VALUES
+ (1, 0, -0.5, 'floating', 'dark blue', 'polarizado oscuro', 'polarizado oscuro', 175),
+ (2, -2, -1.75, 'plastic', 'marrón clásico', 'transparente', 'transparente', 168.75),
+ (3, +0.75, +1, 'metal', 'negro', 'transparente', 'transparente', 149.90); 
+ 
+
