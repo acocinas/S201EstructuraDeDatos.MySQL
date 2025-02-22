@@ -1,3 +1,5 @@
+USE optica;
+
 SELECT 
     c.id_customer,
     ci.name AS customer_name,
