@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS pizza_categories (
 CREATE TABLE IF NOT EXISTS products (
     id_product INT AUTO_INCREMENT PRIMARY KEY,
     name_product VARCHAR(100) NOT NULL,
-    description_product TEXT,
+    product_type ENUM('pizza', 'drink'),
     image VARCHAR(200),
     price DECIMAL(10 , 2 ) NOT NULL,
     categorie_id INT,
