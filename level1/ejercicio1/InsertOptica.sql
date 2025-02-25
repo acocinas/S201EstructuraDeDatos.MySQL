@@ -14,11 +14,17 @@ VALUES
 ('Proveedor 1', 993070263, 'Calle c', 3, '', '', 'Barcelona', '08021', 'España'),
 ('Proveedor 2', 802161172, 'Calle D', 39, '', '', 'Barcelona', '08021', 'España');
 
-INSERT IGNORE INTO customer(contact_id, email, registration_date, recommended_by)
+INSERT IGNORE INTO customer(contact_id, email, registration_date)
 VALUES
-(1 , 'cliente1@ejemplo.com', '2025-01-13 09:57:36',1),
-(2 , 'cliente2@ejemplo.es', '2025-01-22 22:01:09', 1),
-(3 , 'cliente3@ejemplo.es', '2025-01-23 15:23:33', 2);
+(1 , 'cliente1@ejemplo.com', '2025-01-13 09:57:36'),
+(2 , 'cliente2@ejemplo.es', '2025-01-22 22:01:09'),
+(3 , 'cliente3@ejemplo.es', '2025-01-23 15:23:33');
+
+INSERT INTO customer_recommendation (recommending_customer, recommended_customer)
+VALUES
+(1, 2),  -- Cliente 1 recomienda a Cliente 2
+(1, 3),  -- Cliente 1 recomienda a Cliente 3
+(2, 3);  -- Cliente 2 recomienda a Cliente 3
 
 INSERT IGNORE INTO supplier( fk_supplier_contact_id , fax, nif)
 VALUES
